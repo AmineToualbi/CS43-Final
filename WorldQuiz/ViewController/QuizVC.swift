@@ -102,7 +102,8 @@ class QuizVC: UIViewController {
         setupNavigationBar()
         setupConstraints()
         
-        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
         /*
          Once all the UI is loaded & laid out correctly on the screen,
@@ -113,10 +114,10 @@ class QuizVC: UIViewController {
         //quizCountry = "France"
         questionBank = QuestionBank(country: quizCountry)
         quizQuestions = questionBank.listOfQuestions
-        score = 0
-        questionNumber = 0
+        score = getScore()
+        questionNumber = getQuestionNumber()
         numberOfQuestions = quizQuestions.count
-        
+                
         updateUI()
         nextQuestion()
     }
@@ -195,11 +196,16 @@ class QuizVC: UIViewController {
     func restart() {
         questionNumber = 0
         score = 0
+        logCurrentStatus()
         updateUI()
         nextQuestion()
     }
 
     func goToMainMenu() {
+        questionNumber = 0
+        score = 0
+        logCurrentStatus()
+        quizNotFinished(notFinished: false)
         navigationController?.popToRootViewController(animated: true)
     }
     
@@ -292,7 +298,54 @@ class QuizVC: UIViewController {
         }
     }
     
-
-
+    @objc func appMovedToBackground() {
+        print("App moved to background!")
+        quizNotFinished(notFinished: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("DISAPPEARED.")
+        if questionNumber != 0 {     
+            quizNotFinished(notFinished: true)
+        }
+    }
+    
+    func quizNotFinished(notFinished: Bool) {
+        if notFinished == true {
+            logCurrentStatus()
+        }
+        let quizToCompleteKey = "\(quizCountry!)-to-complete"
+        let defaults = UserDefaults.standard
+        defaults.set(notFinished, forKey: quizToCompleteKey)
+        print("KEY = \(quizToCompleteKey) SAVES \(notFinished).")
+    }
+    
+    func logCurrentStatus() {
+        let quizScoreKey = "\(quizCountry!)-score"
+        let quizQuestionKey = "\(quizCountry!)-questionNumber"
+        let defaults = UserDefaults.standard
+        defaults.set(score, forKey: quizScoreKey)
+        defaults.set(questionNumber, forKey: quizQuestionKey)
+        print("Score saved = \(score)")
+    }
+    
+    func getScore() -> Int {
+        let quizScoreKey = "\(quizCountry!)-score"
+        let defaults = UserDefaults.standard
+        var lastScore = defaults.integer(forKey: quizScoreKey)
+        print("getScore() -> \(lastScore)")
+        return lastScore
+    }
+    
+    func getQuestionNumber() -> Int {
+        let quizQuestionKey = "\(quizCountry!)-questionNumber"
+        let defaults = UserDefaults.standard
+        var lastQuestion = defaults.integer(forKey: quizQuestionKey)
+        print("getQuestionNumber() -> \(lastQuestion)")
+        return lastQuestion
+    }
+    
+    
+    
 }
 

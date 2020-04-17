@@ -35,7 +35,7 @@ class QuestionBank {
                 
                 listOfQuestions.append(Question(questionText: "At restaurants, drink prices include a certain number of refills.", answer: false))
             
-                listOfQuestions.shuffle()
+            //    listOfQuestions.shuffle()
             
             case "China":
                 listOfQuestions.append(Question(questionText: "Most Chinese people love eating dogs", answer: false))
@@ -58,7 +58,7 @@ class QuestionBank {
                 
                 listOfQuestions.append(Question(questionText: "People in China are allowed to carry guns", answer: false))
             
-                listOfQuestions.shuffle()
+             //   listOfQuestions.shuffle()
             
             case "Japan":
                 listOfQuestions.append(Question(questionText: "There are 100 million people in Japan", answer: true))
@@ -81,7 +81,7 @@ class QuestionBank {
                 
                 listOfQuestions.append(Question(questionText: "You don't need to worry about earthquakes in Japan", answer: false))
             
-                listOfQuestions.shuffle()
+               // listOfQuestions.shuffle()
             
             case "UK":
                 listOfQuestions.append(Question(questionText: "The current monarch of UK is Elizabeth III", answer: false))
@@ -104,7 +104,7 @@ class QuestionBank {
                 
                 listOfQuestions.append(Question(questionText: "Prince Charles is the King of UK", answer: false))
             
-                listOfQuestions.shuffle()
+              //  listOfQuestions.shuffle()
             
             case "Germany":
                 listOfQuestions.append(Question(questionText: "Checking travel tickets is essential in Germany", answer: false))
@@ -127,7 +127,7 @@ class QuestionBank {
                 
                 listOfQuestions.append(Question(questionText: "It's safe to drink tap water in most German cities", answer: true))
             
-                listOfQuestions.shuffle()
+                //listOfQuestions.shuffle()
             default:
                 print("Invalid Country")
         }
